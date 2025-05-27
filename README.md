@@ -230,14 +230,13 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ⭐ **N'hésitez pas à mettre une étoile si ce projet vous a plu !**
 
 *Projet développé avec passion dans le cadre d'une candidature pour un poste en IA/Automatisation*
-```
 
 ## 🖼️ Aperçu de l'application
 [Interface principale](images/interfaceprincipale.png)
 [Formulairesaisie](images/formulairesaisie.png)
 [Résultats d'analyse](images/resultatsanalyse.png)
 [Score de compatibilité](images/scorecompatibilite.png)
-```
+
 
 ## 📁 Fichiers supplémentaires à créer
 
