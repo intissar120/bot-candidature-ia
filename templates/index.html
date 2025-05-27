@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot de Candidature IA - Propulsé par Groq</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .powered-by {
+            font-size: 0.9em;
+            margin-top: 10px;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .form-section, .result-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateX(5px);
+        }
+
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-excellent { color: #4caf50; }
+        .score-good { color: #ff9800; }
+        .score-poor { color: #f44336; }
+
+        .competences-list, .conseils-list, .points-list {
+            list-style: none;
+        }
+
+        .competences-list li {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #2196f3;
+            transition: transform 0.2s;
+        }
+
+        .competences-list li:hover {
+            transform: translateX(3px);
+        }
+
+        .conseils-list li {
+            background: #f3e5f5;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #9c27b0;
+            transition: transform 0.2s;
+        }
+
+        .conseils-list li:hover {
+            transform: translateX(3px);
+        }
+
+        .points-list li {
+            background: #e8f5e8;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #4caf50;
+            transition: transform 0.2s;
+        }
+
+        .points-list li:hover {
+            transform: translateX(3px);
+        }
+
+        .copy-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5a6268;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        /* Animations d'entrée pour les résultats */
+        .result-card {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Bot de Candidature IA</h1>
+            <p>Analysez votre profil et optimisez vos candidatures</p>
+            <div class="powered-by">⚡ Propulsé par Groq AI</div>
+        </div>
+
+        <div class="content">
+            <div class="form-section">
+                <h2>📝 Informations de candidature</h2>
+                <form id="candidatureForm">
+                    <div class="form-group">
+                        <label for="nom">👤 Votre nom :</label>
+                        <input type="text" id="nom" name="nom" placeholder="Ex: Jean Dupont" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="competences">💼 Vos compétences :</label>
+                        <textarea id="competences" name="competences"
+                                placeholder="Ex: Python, JavaScript, React, SQL, Gestion de projet..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="offre">📋 Offre d'emploi :</label>
+                        <textarea id="offre" name="offre"
+                                placeholder="Collez ici le texte de l'offre d'emploi..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">🚀 Analyser ma candidature</button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>🔍 Analyse en cours avec l'IA...</p>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    ✅ Analyse terminée avec succès !
+                </div>
+
+                <div class="error-message" id="errorMessage">
+                    ❌ Une erreur s'est produite. Veuillez réessayer.
+                </div>
+            </div>
+
+            <div class="result-section">
+                <h2>📊 Résultats de l'analyse</h2>
+                <div id="results" style="display: none;">
+                    <!-- Les résultats apparaîtront ici -->
+                </div>
+                <div id="placeholder" style="text-align: center; color: #666; padding: 50px;">
+                    <p>🎯 Remplissez le formulaire pour voir l'analyse de votre candidature</p>
+                    <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.7;">
+                        Analyse intelligente propulsée par Groq AI
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('candidatureForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const nom = document.getElementById('nom').value.trim();
+            const competences = document.getElementById('competences').value.trim();
+            const offre = document.getElementById('offre').value.trim();
+
+            // Validation côté client
+            if (!nom || !competences || !offre) {
+                showError('Tous les champs sont requis');
+                return;
+            }
+
+            // Afficher le loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.querySelector('.btn').disabled = true;
+
+            try {
+                const response = await fetch('/analyser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nom_candidat: nom,
+                        competences_candidat: competences,
+                        offre_emploi: offre
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    afficherResultats(data);
+                    showSuccess();
+                } else {
+                    showError('Erreur: ' + data.error);
+                }
+            } catch (error) {
+                showError('Erreur de connexion: ' + error.message);
+            } finally {
+                // Masquer le loading
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.btn').disabled = false;
+            }
+        });
+
+        function afficherResultats(data) {
+            const resultsDiv = document.getElementById('results');
+
+            // Déterminer la classe CSS pour le score
+            let scoreClass = 'score';
+            if (data.score_compatibilite >= 80) scoreClass += ' score-excellent';
+            else if (data.score_compatibilite >= 60) scoreClass += ' score-good';
+            else scoreClass += ' score-poor';
+
+            resultsDiv.innerHTML = `
+                <div class="result-card">
+                    <h3>🎯 Score de compatibilité</h3>
+                    <div class="${scoreClass}">${data.score_compatibilite}%</div>
+                </div>
+
+                <div class="result-card">
+                    <h3>🔑 Compétences clés recherchées</h3>
+                    <ul class="competences-list">
+                        ${data.competences_cles.map(comp => `<li>${comp}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="result-card">
+                    <h3>💌 Lettre de motivation</h3>
+                    <p style="line-height: 1.6;">${data.lettre_motivation}</p>
+                    <button class="copy-btn" onclick="copyToClipboard('${data.lettre_motivation.replace(/'/g, "\\'")}')">
+                        📋 Copier la lettre
+                    </button>
+                </div>
+
+                <div class="result-card">
+                    <h3>🎤 Points clés pour l'entretien</h3>
+                    <ul class="points-list">
+                        ${data.points_entretien.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="result-card">
+                    <h3>💡 Conseils d'amélioration</h3>
+                    <ul class="conseils-list">
+                        ${data.conseils.map(conseil => `<li>${conseil}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        function showSuccess() {
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Lettre copiée dans le presse-papiers !');
+            }).catch(() => {
+                showError('Impossible de copier le texte');
+            });
+        }
+
+        // Animation au chargement
+        window.addEventListener('load', () => {
+            document.querySelector('.container').style.animation = 'fadeIn 0.5s ease-in';
+        });
+    </script>
+</body>
+</html>
