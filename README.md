@@ -37,7 +37,7 @@ Ce **Bot de Candidature IA** a été développé pour automatiser et optimiser l
 
 ## 🖼️ Aperçu de l'application
 
-[Interface principale](images/interface-principale1.png)
+[Interface principale](images/interfaceprincipale1.png)
 
 *Interface principale montrant le formulaire de saisie et les résultats d'analyse*
 
@@ -233,10 +233,10 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ```
 
 ## 🖼️ Aperçu de l'application
-![Interface principale](images/Interface%20principale.png)
-![Formulaire saisie](images/Formulaire%20saisie.png)
-![Résultats d'analyse](images/resultats%20analyse.png)
-![Score de compatibilité](images/score%20compatibilite.png)
+![Interface principale](images/Interfaceprincipale.png)
+![Formulaire saisie](images/Formulairesaisie.png)
+![Résultats d'analyse](images/resultatsanalyse.png)
+![Score de compatibilité](images/scorecompatibilite.png)
 ```
 
 ## 📁 Fichiers supplémentaires à créer
