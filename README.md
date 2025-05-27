@@ -234,21 +234,11 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ## 🖼️ Aperçu de l'application
 
-### Interface principale
-![Interface principale](images/interface-principale.png)
-*Vue d'ensemble de l'application avec le formulaire de saisie*
+![Interface principale](images/Interface%20principale.png)
+![Formulaire saisie](images/Formulaire%20saisie.png)
+![Résultats d'analyse](images/resultats%20analyse.png)
+![Score de compatibilité](images/score%20compatibilite.png)
 
-### Formulaire de candidature
-![Formulaire de saisie](images/formulaire-saisie.png)
-*Saisie des informations candidat et offre d'emploi*
-
-### Résultats d'analyse
-![Résultats d'analyse](images/resultats-analyse.png)
-*Affichage des résultats avec score de compatibilité*
-
-### Score et recommandations
-![Score de compatibilité](images/score-compatibilite.png)
-*Détail du score et conseils personnalisés*
 ```
 
 ## 📁 Fichiers supplémentaires à créer
