@@ -37,7 +37,7 @@ Ce **Bot de Candidature IA** a été développé pour automatiser et optimiser l
 
 ## 🖼️ Aperçu de l'application
 
-![![Projet AI 1.png](..%2F..%2FDownloads%2FProjet%20AI%201.png)](screenshot.png)
+[Interface principale](images/interface-principale1.png)
 
 *Interface principale montrant le formulaire de saisie et les résultats d'analyse*
 
@@ -232,11 +232,24 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 *Projet développé avec passion dans le cadre d'une candidature pour un poste en IA/Automatisation*
 ```
 
-## 📸 Pour ajouter votre screenshot
-![Projet AI 2.png](Projet%20AI%202.png)
-![Projet AI 3.png](Projet%20AI%203.png)
-![Projet AI 4.png](Projet%20AI%204.png)
-![Projet AI 5.png](..%2F..%2FDownloads%2FProjet%20AI%205.png)
+## 🖼️ Aperçu de l'application
+
+### Interface principale
+![Interface principale](images/interface-principale.png)
+*Vue d'ensemble de l'application avec le formulaire de saisie*
+
+### Formulaire de candidature
+![Formulaire de saisie](images/formulaire-saisie.png)
+*Saisie des informations candidat et offre d'emploi*
+
+### Résultats d'analyse
+![Résultats d'analyse](images/resultats-analyse.png)
+*Affichage des résultats avec score de compatibilité*
+
+### Score et recommandations
+![Score de compatibilité](images/score-compatibilite.png)
+*Détail du score et conseils personnalisés*
+```
 
 ## 📁 Fichiers supplémentaires à créer
 
