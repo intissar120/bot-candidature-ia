@@ -233,12 +233,10 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ```
 
 ## 🖼️ Aperçu de l'application
-
 ![Interface principale](images/Interface%20principale.png)
 ![Formulaire saisie](images/Formulaire%20saisie.png)
 ![Résultats d'analyse](images/resultats%20analyse.png)
 ![Score de compatibilité](images/score%20compatibilite.png)
-
 ```
 
 ## 📁 Fichiers supplémentaires à créer
