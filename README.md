@@ -208,10 +208,6 @@ Les contributions sont les bienvenues ! Pour contribuer :
 4. **Push** vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
 5. **Ouvrez** une Pull Request
 
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
 ## 👨‍💻 Auteur
 
 **[Intissar EL QADI]**
